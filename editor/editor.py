@@ -172,17 +172,11 @@ class CompletionTextEdit (QTextEdit) :
    def insertCompletion (self, completion) :
        if self.completer.widget() == self :
           tc = self.textCursor ()
-          if use_new_api :
-             extra = len (completion) -  len (self.completer.completionPrefix())
-          else :
-             extra = completion.length() -  self.completer.completionPrefix().length()
+          extra = len (completion) -  len (self.completer.completionPrefix())
           if extra != 0 :
              tc.movePosition (QTextCursor.Left)
              tc.movePosition (QTextCursor.EndOfWord)
-          if use_new_api :
              tc.insertText (completion [-extra : ])
-          else :
-             tc.insertText (completion.right (extra))
           self.setTextCursor (tc)
 
    def textUnderCursor (self) :
@@ -225,8 +219,6 @@ class CompletionTextEdit (QTextEdit) :
            return
 
        eow = "~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-=" # end of word
-       if not use_new_api :
-          eow = QString (eow)
 
        hasModifier = ((event.modifiers () != Qt.NoModifier) and not ctrlOrShift)
 
@@ -237,22 +229,13 @@ class CompletionTextEdit (QTextEdit) :
 
        completionPrefix = self.textUnderCursor ()
 
-       if use_new_api :
-          if (not isShortcut
-              and (hasModifier or
-                   event.text () == "" or
-                   len (completionPrefix) < self.minLength or
-                   event.text()[-1] in eow )) :
-              self.completer.popup ().hide ()
-              return
-       else :
-          if (not isShortcut
-              and (hasModifier or
-                   event.text ().isEmpty () or
-                   completionPrefix.length () < self.minLength or
-                   eow.contains (event.text().right(1)) )) :
-              self.completer.popup ().hide ()
-              return
+       if (not isShortcut
+           and (hasModifier or
+                event.text () == "" or
+                len (completionPrefix) < self.minLength or
+                event.text()[-1] in eow )) :
+           self.completer.popup ().hide ()
+           return
 
        if (completionPrefix != self.completer.completionPrefix ()) :
            self.completer.setCompletionPrefix (completionPrefix)
