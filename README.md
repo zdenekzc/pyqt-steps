@@ -5,9 +5,9 @@ PyQt examples
 
 [tree.py](simple/tree.py) ... QTreeWidget
 
-[paint.py](simple/paint.py) ... paintEvent, QPainter
-
 ![tree.png](pictures/tree.png)
+
+[paint.py](simple/paint.py) ... paintEvent, QPainter
 
 [file_tree.py](simple/file_tree.py) ... directories, files, show file in QTextEdit
 
@@ -20,6 +20,8 @@ PyQt examples
 [xml.py](simple/xml.py) ... QXmlStreamReader
 
 [sqlite.py](simple/sqlitel.py) ... QSqlDatabase, QSqlQuery, QTableView
+
+[rpm_view.py](simple/rpm_view.py) ... list RPM packages on Fedora
 
 [graphics_scene.py](simple/graphics_scene.py ) ... QGraphicsScene, drag and drop
 
@@ -35,5 +37,3 @@ PyQt examples
 
 ![pictures/reflection.png](pictures/reflection.png)
 
-```python
-```
