@@ -3,6 +3,7 @@
 import sys
 
 import dnf
+# dnf install python3-dnf
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -11,7 +12,9 @@ from PyQt5.QtWidgets import *
 # --------------------------------------------------------------------------
 
 class TreeItem (QTreeWidgetItem):
-   pass
+   def __init__ (self, parent, text) :
+      super (TreeItem, self).__init__ (parent)
+      self.setText (0, text)
 
 class RpmView (QTreeWidget):
 
@@ -24,30 +27,22 @@ class RpmView (QTreeWidget):
 
        branch = TreeItem (self, "Repositories")
        branch.item_icon = "class"
-       branch.setupTreeItem ()
        for repo in base.repos.iter_enabled () :
            node = TreeItem (branch, repo.id)
-           node.item_tooltip = str (repo.baseurl)
-           node.item_icon = "function"
-           node.setupTreeItem ()
+           node.setToolTip (0, str (repo.baseurl))
            node.obj = repo
 
        base.read_comps ()
        branch = TreeItem (self, "Groups")
        branch.item_icon = "class"
-       branch.setupTreeItem ()
 
        for grp in base.comps.groups :
            group_branch = TreeItem (branch, grp.name)
-           group_branch.item_icon = "class"
-           group_branch.item_tooltip = grp.id
-           group_branch.setupTreeItem ()
+           group_branch.setToolTip(0, grp.id)
            group_branch.obj = grp
 
            for pkg in grp.packages_iter () :
                node = TreeItem (group_branch, pkg.name)
-               node.item_icon = "function"
-               node.setupTreeItem ()
                node.obj = pkg
 
        q = base.sack.query ()
@@ -59,18 +54,21 @@ class RpmView (QTreeWidget):
 
    def addPackages (self, text, a) :
        branch = TreeItem (self, text)
-       branch.item_icon = "class"
-       branch.setupTreeItem ()
 
        for pkg in a :
            node = TreeItem (branch, pkg.name + "-" + pkg.evr + "." + pkg.arch + ".rpm")
-           if pkg.installed :
-              node.item_icon = "function"
-           else :
-              node.item_icon = "variable"
-           node.item_tooltip = "downloadsize=" + str (pkg.downloadsize) + ", installsize=" + str (pkg.installsize)
-           node.setupTreeItem ()
+           # if pkg.installed :
+           #    node.item_icon = "function"
+           # else :
+           #    node.item_icon = "variable"
+           node.setToolTip (0, "downloadsize=" + str (pkg.downloadsize) + ", installsize=" + str (pkg.installsize))
            node.obj = pkg
+
+if __name__ == "__main__" :
+    app = QApplication (sys.argv)
+    win = RpmView ()
+    win.show ()
+    sys.exit (app.exec_ ())
 
 # --------------------------------------------------------------------------
 
