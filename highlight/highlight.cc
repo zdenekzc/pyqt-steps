@@ -116,10 +116,10 @@ void highlightBlock (const QString & text)
                     else
                         setFormat (start, inx - start, stringFormat);
                 }
-                else if (c == "'")
+                else if (c == '\'')
                 {
                     inx = inx + 1;
-                    while (inx < cnt && text[inx] != "'")
+                    while (inx < cnt && text[inx] != '\'')
                         inx = inx + 1;
                     inx = inx + 1;
                     if (use_cursor && fmt.hasProperty (infoProperty))

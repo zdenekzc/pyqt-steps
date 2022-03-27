@@ -5,13 +5,13 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 
 import sys
-import highlighting
+import highlight
 
 class Window (QTextEdit) :
 
    def __init__ (self, parent = None) :
        super (Window, self).__init__ (parent)
-       self.highlighter = highlighting.Highlighter (self.document ()) # important: keep reference to highlighter
+       self.highlighter = highlight.Highlighter (self.document ()) # important: keep reference to highlighter
 
        text = """
           int main (int argc, char * * argv)
